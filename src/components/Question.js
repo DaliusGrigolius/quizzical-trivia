@@ -2,7 +2,24 @@ import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
 function Question(props) {
+	const [answers, setAnswers] = useState([]);
 	const [chosen, setChosen] = useState("");
+
+	useEffect(() => {
+		setAnswers(shuffleArray([props.correct_answer, ...props.incorrect_answers]));
+	}, []);
+
+	function shuffleArray(array) {
+		let currentId = array.length;
+		while (0 !== currentId) {
+			let randomId = Math.floor(Math.random() * currentId);
+			currentId -= 1;
+			let temp = array[currentId];
+			array[currentId] = array[randomId];
+			array[randomId] = temp;
+		}
+		return array;
+	}
 
 	const handleChoose = (e) => {
 		e.preventDefault();
@@ -10,7 +27,7 @@ function Question(props) {
 		console.log(chosen);
 	};
 
-	const buttonElements = shuffleArray(answers).map((btn) => {
+	const buttonElements = answers.map((btn) => {
 		return (
 			<input
 				type="button"
