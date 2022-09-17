@@ -4,8 +4,8 @@ import StartPage from "./components/StartPage.js";
 import Question from "./components/Question";
 
 function App() {
-	const [startState, setStartState] = useState(true);
 	const [questionsData, setQuestionsData] = useState([]);
+	const [startState, setStartState] = useState(true);
 
 	useEffect(() => {
 		fetch("https://the-trivia-api.com/api/questions?limit=5&region=LT")
@@ -16,22 +16,18 @@ function App() {
 			})
 			.catch((error) => console.log(error));
 	}, []);
-	//-----------------
 
-	//-------------------
-	const questionElements = questionsData.map((obj) => {
-		return (
-			<Question
-				id={obj.id}
-				key={obj.id}
-				category={obj.category}
-				question={obj.question}
-				difficulty={obj.difficulty}
-				correct_answer={obj.correctAnswer}
-				incorrect_answers={obj.incorrectAnswers}
-			/>
-		);
-	});
+	const questionElements = questionsData.map((obj) => (
+		<Question
+			key={obj.id}
+			id={obj.id}
+			category={obj.category}
+			difficulty={obj.difficulty}
+			question={obj.question}
+			correctAnswer={obj.correctAnswer}
+			incorrectAnswers={obj.incorrectAnswers}
+		/>
+	));
 
 	function handleStartClick() {
 		setStartState(!startState);

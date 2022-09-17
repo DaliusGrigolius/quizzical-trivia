@@ -78,6 +78,7 @@ body {
 	font-weight: 600;
 	font-style: italic;
 	text-align: center;
+	width: 600px - 2em;
 }
 
 .hr {
@@ -97,6 +98,10 @@ body {
 }
 
 .answer--button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 1 1 auto;
 	box-shadow: rgb(38, 57, 77) 0px 0px 10px -1px;
 	transition: 0.5s;
 	padding: 0.5em 1em;
@@ -107,7 +112,6 @@ body {
 	font-size: 12px;
 	font-weight: bold;
 	cursor: pointer;
-	min-width: 100px;
 }
 
 .answer--button:hover {
@@ -135,4 +139,8 @@ body {
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
 		rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 	border: 1px solid rgb(163, 163, 163);
+}
+
+.answer--button--clicked {
+	background-color: rgb(176, 210, 176);
 }
