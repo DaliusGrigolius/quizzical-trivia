@@ -103,7 +103,7 @@ body {
 	align-items: center;
 	flex: 1 1 auto;
 	box-shadow: rgb(38, 57, 77) 0px 0px 10px -1px;
-	transition: 0.5s;
+	transition: 1s;
 	padding: 0.5em 1em;
 	background-color: #293264;
 	color: wheat;

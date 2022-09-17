@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
 import { nanoid } from "nanoid";
 
 function Question(props) {
@@ -7,23 +6,37 @@ function Question(props) {
 
 	function allNewButtons() {
 		const newButtons = [];
-		const btns = [props.correctAnswer, ...props.incorrectAnswers];
-		for (let i = 0; i < btns.length; i++) {
-			newButtons.push(generateNewButton(btns[i]));
+		const incorrectBtns = [...props.incorrectAnswers];
+		for (let i = 0; i < incorrectBtns.length; i++) {
+			newButtons.push(generateNewButton(incorrectBtns[i], false));
 		}
-		return newButtons;
+		newButtons.push(generateNewButton(props.correctAnswer, true));
+		return shuffleArray(newButtons);
 	}
 
-	function generateNewButton(value) {
+	function shuffleArray(array) {
+		let currentId = array.length;
+		while (0 !== currentId) {
+			let randomId = Math.floor(Math.random() * currentId);
+			currentId -= 1;
+			let temp = array[currentId];
+			array[currentId] = array[randomId];
+			array[randomId] = temp;
+		}
+		return array;
+	}
+
+	function generateNewButton(value, bool) {
 		return {
 			id: nanoid(),
 			value: value,
 			isHeld: false,
 			isChosen: false,
+			isCorrect: bool,
 		};
 	}
 
-	function holdSelected(id) {
+	function handleClick(id) {
 		setButtons((oldButton) =>
 			oldButton.map((btn) => {
 				return btn.id === id
@@ -34,13 +47,17 @@ function Question(props) {
 	}
 
 	const buttonElements = buttons.map((btn) => (
-		<Button
-			id={btn.id}
+		<button
+			className="answer--button"
 			key={btn.id}
-			value={btn.value}
-			isHeld={btn.isHeld}
-			handleClick={() => holdSelected(btn.id)}
-		/>
+			style={{
+				backgroundColor: btn.isHeld ? "#59E391" : "#293264",
+				color: btn.isHeld ? "#293264" : "white",
+			}}
+			onClick={() => handleClick(btn.id)}
+		>
+			{btn.value}
+		</button>
 	));
 
 	return (
