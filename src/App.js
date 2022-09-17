@@ -9,12 +9,11 @@ function App() {
 
 	useEffect(() => {
 		fetch("https://the-trivia-api.com/api/questions?limit=5&region=LT")
-			.then((response) => response.json())
+			.then((resp) => resp.json())
 			.then((data) => {
 				setQuestionsData(data);
-				console.log(data);
 			})
-			.catch((error) => console.log(error));
+			.catch((err) => console.log(err));
 	}, []);
 
 	const questionElements = questionsData.map((obj) => (
