@@ -14,6 +14,15 @@ function Question(props) {
 		return shuffleArray(newButtons);
 	}
 
+	function generateNewButton(value, bool) {
+		return {
+			id: nanoid(),
+			value: value,
+			isChosen: false,
+			isCorrect: bool,
+		};
+	}
+
 	function shuffleArray(array) {
 		let currentId = array.length;
 		while (0 !== currentId) {
@@ -26,24 +35,15 @@ function Question(props) {
 		return array;
 	}
 
-	function generateNewButton(value, bool) {
-		return {
-			id: nanoid(),
-			value: value,
-			isHeld: false,
-			isChosen: false,
-			isCorrect: bool,
-		};
-	}
-
 	function handleClick(id) {
 		setButtons((oldButton) =>
 			oldButton.map((btn) => {
 				return btn.id === id
-					? { ...btn, isHeld: true, isChosen: true }
-					: { ...btn, isHeld: false, isChosen: false };
+					? { ...btn, isChosen: true }
+					: { ...btn, isChosen: false };
 			})
 		);
+		props.setAnswers((prevArr) => [...prevArr, buttons]);
 	}
 
 	const buttonElements = buttons.map((btn) => (
@@ -51,8 +51,8 @@ function Question(props) {
 			className="answer--button"
 			key={btn.id}
 			style={{
-				backgroundColor: btn.isHeld ? "#59E391" : "#293264",
-				color: btn.isHeld ? "#293264" : "white",
+				backgroundColor: btn.isChosen ? "#59E391" : "#293264",
+				color: btn.isChosen ? "#293264" : "white",
 			}}
 			onClick={() => handleClick(btn.id)}
 		>

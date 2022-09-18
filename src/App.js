@@ -6,6 +6,7 @@ import Question from "./components/Question";
 function App() {
 	const [questionsData, setQuestionsData] = useState([]);
 	const [startState, setStartState] = useState(true);
+	const [answers, setAnswers] = useState([]);
 
 	useEffect(() => {
 		fetch("https://the-trivia-api.com/api/questions?limit=5&region=LT")
@@ -25,11 +26,16 @@ function App() {
 			question={obj.question}
 			correctAnswer={obj.correctAnswer}
 			incorrectAnswers={obj.incorrectAnswers}
+			setAnswers={setAnswers}
 		/>
 	));
 
 	function handleStartClick() {
 		setStartState(!startState);
+	}
+
+	function checkAnswers() {
+		console.log("getting this: " + answers.length);
 	}
 
 	return (
@@ -38,7 +44,11 @@ function App() {
 			{!startState && (
 				<div className="container--question--elements">{questionElements}</div>
 			)}
-			{!startState && <button className="check--answers">Check Answers</button>}
+			{!startState && (
+				<button className="check--answers" onClick={checkAnswers}>
+					Check Answers
+				</button>
+			)}
 		</div>
 	);
 }
