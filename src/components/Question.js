@@ -3,7 +3,11 @@ import { nanoid } from "nanoid";
 
 function Question(props) {
 	const [buttons, setButtons] = useState(allNewButtons());
-
+	// -----------------------------
+	useEffect(() => {
+		props.setAnswers(buttons); // cia reik kazkaip parasyt kad islaikyti jau esama buttons ir prideti tik ta nauja kur pasiupdatina paspaudus
+	}, [buttons]);
+	// -----------------------------
 	function allNewButtons() {
 		const newButtons = [];
 		const incorrectBtns = [...props.incorrectAnswers];
@@ -44,17 +48,6 @@ function Question(props) {
 					? { ...btn, isChosen: true }
 					: { ...btn, isChosen: false };
 			})
-		);
-		props.setAnswers(buttons); // cia blogai nes visad nusetina tik paskutini pasirinkta klausima
-		props.setAnswers(
-			(
-				prevObj // cia irgi blogai. nzn kaip padaryt kad teisingai perduotu, kad neistrintu jau pasirinktu o tik updatintu kuri paspaude
-			) =>
-				prevObj.map((obj) => {
-					return obj.qId === props.id
-						? { ...obj, isChosen: true }
-						: { ...obj, isChosen: false };
-				})
 		);
 	}
 
