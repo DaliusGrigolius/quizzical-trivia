@@ -46,13 +46,7 @@ function Question(props) {
 			})
 		);
 		// -------------------------
-		props.setAnswers((prev) =>
-			prev.length === 0
-				? buttons
-				: prev.map((obj) => {
-						return obj.id === id ? { ...obj, isChosen: true } : obj;
-				  })
-		);
+		props.setAnswers((prev) => [...prev, { ...buttons }]);
 		// -------------------------
 	}
 
