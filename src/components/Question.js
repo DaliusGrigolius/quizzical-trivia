@@ -20,6 +20,8 @@ function Question(props) {
 			value: value,
 			isChosen: false,
 			isCorrect: bool,
+			isChecked: false,
+			qId: props.id,
 		};
 	}
 
@@ -43,7 +45,17 @@ function Question(props) {
 					: { ...btn, isChosen: false };
 			})
 		);
-		props.setAnswers((prevArr) => [...prevArr, buttons]);
+		props.setAnswers(buttons); // cia blogai nes visad nusetina tik paskutini pasirinkta klausima
+		props.setAnswers(
+			(
+				prevObj // cia irgi blogai. nzn kaip padaryt kad teisingai perduotu, kad neistrintu jau pasirinktu o tik updatintu kuri paspaude
+			) =>
+				prevObj.map((obj) => {
+					return obj.qId === props.id
+						? { ...obj, isChosen: true }
+						: { ...obj, isChosen: false };
+				})
+		);
 	}
 
 	const buttonElements = buttons.map((btn) => (

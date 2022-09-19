@@ -36,6 +36,7 @@ function App() {
 
 	function checkAnswers() {
 		console.log("getting this: " + answers.length);
+		console.log({ ...answers });
 	}
 
 	return (
