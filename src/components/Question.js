@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
 
 function Question(props) {
 	const [buttons, setButtons] = useState(allNewButtons());
-	// -----------------------------
-	useEffect(() => {
-		props.setAnswers(buttons); // cia reik kazkaip parasyt kad islaikyti jau esama buttons ir prideti tik ta nauja kur pasiupdatina paspaudus
-	}, [buttons]);
-	// -----------------------------
+
 	function allNewButtons() {
 		const newButtons = [];
 		const incorrectBtns = [...props.incorrectAnswers];
@@ -49,6 +45,15 @@ function Question(props) {
 					: { ...btn, isChosen: false };
 			})
 		);
+		// -------------------------
+		props.setAnswers((prev) =>
+			prev.length === 0
+				? buttons
+				: prev.map((obj) => {
+						return obj.id === id ? { ...obj, isChosen: true } : obj;
+				  })
+		);
+		// -------------------------
 	}
 
 	const buttonElements = buttons.map((btn) => (
