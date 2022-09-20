@@ -141,6 +141,42 @@ body {
 	border: 1px solid rgb(163, 163, 163);
 }
 
-.answer--button--clicked {
-	background-color: rgb(176, 210, 176);
+.play--again {
+	font-family: "Karla", sans-serif;
+	font-weight: 700;
+	font-size: 20px;
+	padding: 0.5em 1em;
+	color: #293264;
+	border-radius: 10px;
+	border: 1px solid rgb(208, 208, 208);
+	cursor: pointer;
+	box-shadow: rgb(38, 57, 77) 0px 0px 30px -10px;
+	transition: 0.5s;
+	margin: 20px 0 20px 20px;
+}
+
+.play--again:hover {
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+		rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+	border: 1px solid rgb(163, 163, 163);
+}
+
+.container--button--elements {
+	text-align: center;
+}
+
+.score {
+	font-size: 20px;
+}
+
+.successless {
+	color: red;
+}
+
+.successful {
+	color: green;
+}
+
+.questions--total {
+	color: green;
 }
