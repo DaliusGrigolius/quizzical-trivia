@@ -12,8 +12,6 @@ function App() {
 	const [userScore, setUserScore] = useState(0);
 	const [selected, setSelected] = useState(false);
 
-	console.log(questionsData);
-
 	function startNewGame() {
 		setNewGame((prevVal) => !prevVal);
 		setAllChecked(false);
