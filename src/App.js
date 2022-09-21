@@ -12,6 +12,8 @@ function App() {
 	const [userScore, setUserScore] = useState(0);
 	const [selected, setSelected] = useState(false);
 
+	console.log(questionsData);
+
 	function startNewGame() {
 		setNewGame((prevVal) => !prevVal);
 		setAllChecked(false);
@@ -122,7 +124,7 @@ function App() {
 							checked: true,
 						};
 					} else if (answer.isHeld && answer.correct) {
-						setUserScore((prev) => prev + 1);
+						setUserScore((prevScore) => prevScore + 1);
 						return {
 							...answer,
 							heldCorrect: true,
@@ -145,34 +147,32 @@ function App() {
 	}
 
 	return (
-		<div>
-			<div className="container">
-				{start && <StartPage handleClick={handleStartClick} />}
-				<div>
-					{!start && (
-						<div className="container--question--elements">{questionElements}</div>
-					)}
-					<div className="container--button--elements">
-						{allChecked && (
-							<div>
-								<span className="score">
-									You scored{" "}
-									<span className={userScore < 5 ? "successless" : "successful"}>
-										{userScore}
-									</span>
-									/<span className="questions--total">5</span> correct answers
+		<div className="container">
+			{start && <StartPage handleClick={handleStartClick} />}
+			<div>
+				{!start && (
+					<div className="container--question--elements">{questionElements}</div>
+				)}
+				<div className="container--button--elements">
+					{allChecked && (
+						<div>
+							<span className="score">
+								You scored{" "}
+								<span className={userScore < 5 ? "successless" : "successful"}>
+									{userScore}
 								</span>
-								<button className="play--again" onClick={startNewGame}>
-									Play again
-								</button>
-							</div>
-						)}
-						{selected && !allChecked && (
-							<button className="check--answers" onClick={checkAnswers}>
-								Check answers
+								/<span className="questions--total">5</span> correct answers
+							</span>
+							<button className="play--again" onClick={startNewGame}>
+								Play again
 							</button>
-						)}
-					</div>
+						</div>
+					)}
+					{selected && !allChecked && (
+						<button className="check--answers" onClick={checkAnswers}>
+							Check answers
+						</button>
+					)}
 				</div>
 			</div>
 		</div>
