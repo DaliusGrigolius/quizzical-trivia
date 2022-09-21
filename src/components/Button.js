@@ -1,6 +1,6 @@
 import React from "react";
 
-function Answer(props) {
+function Button(props) {
 	let answerStyle = {};
 
 	if (props.checked && props.correct) {
@@ -15,7 +15,7 @@ function Answer(props) {
 		};
 	} else {
 		answerStyle = {
-			backgroundColor: props.isHeld ? "green" : "#293264",
+			backgroundColor: props.isHeld ? "#2cc989" : "#293264",
 			color: "wheat",
 		};
 	}
@@ -26,4 +26,4 @@ function Answer(props) {
 	);
 }
 
-export default Answer;
+export default Button;

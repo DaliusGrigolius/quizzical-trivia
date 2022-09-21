@@ -6,15 +6,15 @@ import { nanoid } from "nanoid";
 
 function App() {
 	const [start, setStart] = useState(true);
-	const [questions, setQuestions] = useState([]);
-	const [game, setGame] = useState(false);
-	const [checked, setChecked] = useState(false);
-	const [score, setScore] = useState(0);
+	const [questionsData, setQuestionsData] = useState([]);
+	const [newGame, setNewGame] = useState(false);
+	const [allChecked, setAllChecked] = useState(false);
+	const [userScore, setUserScore] = useState(0);
 
-	function newGame() {
-		setGame((prevVal) => !prevVal);
-		setChecked(false);
-		setScore(0);
+	function startNewGame() {
+		setNewGame((prevVal) => !prevVal);
+		setAllChecked(false);
+		setUserScore(0);
 	}
 
 	function handleStartClick() {
@@ -25,10 +25,10 @@ function App() {
 		fetch("https://the-trivia-api.com/api/questions?limit=5&region=LT")
 			.then((resp) => resp.json())
 			.then((data) => {
-				setQuestions(modifyData(data));
+				setQuestionsData(modifyData(data));
 			})
 			.catch((err) => console.log(err));
-	}, [game]);
+	}, [newGame]);
 
 	function modifyData(questionsArray) {
 		const decentQuestions = questionsArray.map((question) => {
@@ -36,7 +36,7 @@ function App() {
 				id: question.id,
 				question: question.question,
 				correctAnswer: question.correctAnswer,
-				answers: settingAnswers(
+				answers: createAnswerObjects(
 					shuffleAnswers([...question.incorrectAnswers, question.correctAnswer]),
 					question.correctAnswer
 				),
@@ -47,7 +47,7 @@ function App() {
 		return decentQuestions;
 	}
 
-	function settingAnswers(shuffledAnswers, correctAnswer) {
+	function createAnswerObjects(shuffledAnswers, correctAnswer) {
 		return shuffledAnswers.map((answer) => {
 			return {
 				isHeld: false,
@@ -65,7 +65,7 @@ function App() {
 		return array.sort(() => Math.random() - 0.5);
 	}
 
-	const questionElements = questions.map((question) => (
+	const questionElements = questionsData.map((question) => (
 		<Question
 			id={question.id}
 			key={question.id}
@@ -78,7 +78,7 @@ function App() {
 	));
 
 	function checkHold(answerId, questionId) {
-		setQuestions((prevQuestions) =>
+		setQuestionsData((prevQuestions) =>
 			prevQuestions.map((question) => {
 				if (question.id === questionId) {
 					const answersList = question.answers.map((answer) => {
@@ -103,7 +103,7 @@ function App() {
 	}
 
 	function checkAnswers() {
-		setQuestions((prevQuestions) =>
+		setQuestionsData((prevQuestions) =>
 			prevQuestions.map((question) => {
 				const checkedAnswers = question.answers.map((answer) => {
 					if (answer.isHeld && !answer.correct) {
@@ -113,7 +113,7 @@ function App() {
 							checked: true,
 						};
 					} else if (answer.isHeld && answer.correct) {
-						setScore((prevScore) => prevScore + 1);
+						setUserScore((prevScore) => prevScore + 1);
 						return {
 							...answer,
 							heldCorrect: true,
@@ -132,7 +132,7 @@ function App() {
 				};
 			})
 		);
-		setChecked(true);
+		setAllChecked(true);
 	}
 
 	return (
@@ -144,16 +144,16 @@ function App() {
 					<div>
 						<div className="container--question--elements">{questionElements}</div>
 						<div className="container--button--elements">
-							{checked ? (
+							{allChecked ? (
 								<div>
 									<span className="score">
 										You scored{" "}
-										<span className={score < 5 ? "successless" : "successful"}>
-											{score / 2}
+										<span className={userScore / 2 < 5 ? "successless" : "successful"}>
+											{userScore / 2}
 										</span>
 										/<span className="questions--total">5</span> correct answers
 									</span>
-									<button className="play--again" onClick={newGame}>
+									<button className="play--again" onClick={startNewGame}>
 										Play again
 									</button>
 								</div>

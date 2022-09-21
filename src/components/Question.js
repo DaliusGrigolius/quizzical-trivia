@@ -1,5 +1,5 @@
 import React from "react";
-import Answer from "./Answer";
+import Button from "./Button";
 
 function Question(props) {
 	function checkHold(id) {
@@ -8,7 +8,7 @@ function Question(props) {
 
 	const answerElements = props.answers.map((answer) => {
 		return (
-			<Answer
+			<Button
 				answer={answer.answer}
 				isHeld={answer.isHeld}
 				checkHold={() => checkHold(answer.id)}
