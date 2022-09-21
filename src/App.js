@@ -10,11 +10,13 @@ function App() {
 	const [newGame, setNewGame] = useState(false);
 	const [allChecked, setAllChecked] = useState(false);
 	const [userScore, setUserScore] = useState(0);
+	const [selected, setSelected] = useState(false);
 
 	function startNewGame() {
 		setNewGame((prevVal) => !prevVal);
 		setAllChecked(false);
 		setUserScore(0);
+		setSelected(false);
 	}
 
 	function handleStartClick() {
@@ -29,6 +31,13 @@ function App() {
 			})
 			.catch((err) => console.log(err));
 	}, [newGame]);
+
+	useEffect(() => {
+		const selectedAnswers = questionsData.filter((q) =>
+			q.answers.some((a) => a.isHeld)
+		).length;
+		selectedAnswers === 5 ? setSelected(true) : setSelected(false);
+	}, [questionsData]);
 
 	function modifyData(questionsArray) {
 		const decentQuestions = questionsArray.map((question) => {
@@ -113,7 +122,7 @@ function App() {
 							checked: true,
 						};
 					} else if (answer.isHeld && answer.correct) {
-						setUserScore((prevScore) => prevScore + 1);
+						setUserScore((prev) => prev + 1);
 						return {
 							...answer,
 							heldCorrect: true,
@@ -132,39 +141,39 @@ function App() {
 				};
 			})
 		);
-		setAllChecked(true);
+		selected ? setAllChecked(true) : setAllChecked(false);
 	}
 
 	return (
 		<div>
 			<div className="container">
-				{start ? (
-					<StartPage handleClick={handleStartClick} />
-				) : (
-					<div>
+				{start && <StartPage handleClick={handleStartClick} />}
+				<div>
+					{!start && (
 						<div className="container--question--elements">{questionElements}</div>
-						<div className="container--button--elements">
-							{allChecked ? (
-								<div>
-									<span className="score">
-										You scored{" "}
-										<span className={userScore / 2 < 5 ? "successless" : "successful"}>
-											{userScore / 2}
-										</span>
-										/<span className="questions--total">5</span> correct answers
+					)}
+					<div className="container--button--elements">
+						{allChecked && (
+							<div>
+								<span className="score">
+									You scored{" "}
+									<span className={userScore < 5 ? "successless" : "successful"}>
+										{userScore}
 									</span>
-									<button className="play--again" onClick={startNewGame}>
-										Play again
-									</button>
-								</div>
-							) : (
-								<button className="check--answers" onClick={checkAnswers}>
-									Check answers
+									/<span className="questions--total">5</span> correct answers
+								</span>
+								<button className="play--again" onClick={startNewGame}>
+									Play again
 								</button>
-							)}
-						</div>
+							</div>
+						)}
+						{selected && !allChecked && (
+							<button className="check--answers" onClick={checkAnswers}>
+								Check answers
+							</button>
+						)}
 					</div>
-				)}
+				</div>
 			</div>
 		</div>
 	);
