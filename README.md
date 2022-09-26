@@ -1,4 +1,4 @@
-# Quizz App
+# Quiz App with REACT
 
 ### Game description
 
